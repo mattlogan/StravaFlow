@@ -81,7 +81,6 @@
     <orderEntry type="jdk" jdkName="Android API 20 Platform" jdkType="Android SDK" />
     <orderEntry type="sourceFolder" forTests="false" />
     <orderEntry type="library" exported="" name="retrofit-1.7.0" level="project" />
-    <orderEntry type="library" exported="" name="flow-0.8" level="project" />
     <orderEntry type="library" exported="" name="otto-1.3.5" level="project" />
     <orderEntry type="library" exported="" name="gson-2.3" level="project" />
     <orderEntry type="library" exported="" name="butterknife-5.1.2" level="project" />

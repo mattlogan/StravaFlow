@@ -1,30 +1,22 @@
 package me.mattlogan.stravaflow.ui.view;
 
 import android.content.Context;
-import android.graphics.Color;
 import android.net.Uri;
 import android.util.AttributeSet;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 
-import flow.Flow;
 import me.mattlogan.stravaflow.StravaFlowActivity;
 import me.mattlogan.stravaflow.R;
 import me.mattlogan.stravaflow.ui.presenter.AuthPresenter;
-import me.mattlogan.stravaflow.ui.screen.ActivityListScreen;
-import me.mattlogan.stravaflow.ui.screen.AuthScreen;
 
 public class AuthWebView extends WebView {
 
-    Flow flow;
-    AuthScreen screen;
     AuthPresenter presenter;
 
     public AuthWebView(Context context, AttributeSet attrs) {
         super(context, attrs);
         StravaFlowActivity activity = (StravaFlowActivity) getContext();
-        flow = activity.getFlow();
-        screen = (AuthScreen) activity.getCurrentScreen();
         presenter = new AuthPresenter(this);
     }
 
@@ -63,6 +55,6 @@ public class AuthWebView extends WebView {
     }
 
     public void goToNext() {
-        flow.replaceTo(new ActivityListScreen());
+        // todo: go to activity list
     }
 }

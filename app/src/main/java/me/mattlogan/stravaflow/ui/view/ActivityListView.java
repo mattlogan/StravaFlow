@@ -1,9 +1,8 @@
 package me.mattlogan.stravaflow.ui.view;
 
-import android.app.Activity;
+import android.app.ActionBar;
 import android.content.Context;
 import android.util.AttributeSet;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,33 +15,31 @@ import java.util.List;
 
 import butterknife.ButterKnife;
 import butterknife.InjectView;
-import flow.Flow;
 import me.mattlogan.stravaflow.StravaFlowActivity;
 import me.mattlogan.stravaflow.R;
+import me.mattlogan.stravaflow.ui.screens.ActivityDetailScreen;
+import me.mattlogan.stravaflow.viewboss.ViewBoss;
 import me.mattlogan.stravaflow.api.model.StravaActivity;
 import me.mattlogan.stravaflow.ui.presenter.ActivityListPresenter;
-import me.mattlogan.stravaflow.ui.screen.ActivityDetailScreen;
-import me.mattlogan.stravaflow.ui.screen.ActivityListScreen;
 
 public class ActivityListView extends RelativeLayout {
 
     @InjectView(R.id.activities_list) ListView listView;
 
-    Flow flow;
-    ActivityListScreen screen;
     ActivityListPresenter presenter;
+    ViewBoss boss;
 
     List<StravaActivity> activities;
     ActivitiesAdapter adapter;
 
     public ActivityListView(Context context, AttributeSet attrs) {
         super(context, attrs);
-        StravaFlowActivity activity = (StravaFlowActivity) getContext();
-        flow = activity.getFlow();
-        screen = (ActivityListScreen) activity.getCurrentScreen();
         presenter = new ActivityListPresenter(this);
-        if (activity.getActionBar() != null) {
-            activity.getActionBar().setTitle(context.getString(R.string.app_name));
+        boss = ViewBoss.getInstance();
+        ActionBar actionBar = ((StravaFlowActivity) getContext()).getActionBar();
+        if (actionBar != null) {
+            actionBar.setTitle(context.getString(R.string.app_name));
+            actionBar.setDisplayHomeAsUpEnabled(false);
         }
     }
 
@@ -102,8 +99,7 @@ public class ActivityListView extends RelativeLayout {
 
             view.setOnClickListener(new OnClickListener() {
                 @Override public void onClick(View view) {
-                    int id = Integer.parseInt(activity.getId());
-                    flow.goTo(new ActivityDetailScreen(id, activity.getName()));
+                    boss.goToScreen(new ActivityDetailScreen(activity.getId(), activity.getName()));
                 }
             });
 

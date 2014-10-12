@@ -2,27 +2,20 @@ package me.mattlogan.stravaflow.ui.view;
 
 import android.content.Context;
 import android.util.AttributeSet;
-import android.util.Log;
+import android.view.LayoutInflater;
 import android.widget.FrameLayout;
 
-import flow.Flow;
-import flow.Layouts;
+import me.mattlogan.stravaflow.viewboss.Screen;
+import me.mattlogan.stravaflow.viewboss.ViewBoss;
 
-public class Container extends FrameLayout {
+public class Container extends FrameLayout implements ViewBoss.Listener {
 
     public Container(Context context, AttributeSet attrs) {
         super(context, attrs);
     }
 
-    public void showInitialScreen(Object screen) {
-        Log.d("testing", "showInitialScreen: " + screen);
-        addView(Layouts.createView(getContext(), screen));
-    }
-
-    public void showScreen(Object screen, Flow.Direction direction, Flow.Callback callback) {
-        Log.d("testing", "showScreen: " + screen);
+    @Override public void showScreen(Screen screen) {
         removeAllViews();
-        addView(Layouts.createView(getContext(), screen));
-        callback.onComplete();
+        addView(LayoutInflater.from(getContext()).inflate(screen.layout(), this, false));
     }
 }

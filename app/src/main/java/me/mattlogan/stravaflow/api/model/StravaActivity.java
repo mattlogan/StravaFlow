@@ -2,7 +2,8 @@ package me.mattlogan.stravaflow.api.model;
 
 public class StravaActivity {
 
-    String id;
+    int id;
+
     String name;
     String startDate;
     String locationCity;
@@ -11,7 +12,7 @@ public class StravaActivity {
     float distance;
     float totalElevationGain;
 
-    public StravaActivity(String id, String name, String startDate, String locationCity,
+    public StravaActivity(int id, String name, String startDate, String locationCity,
                           String locationState, float distance, float totalElevationGain) {
         this.id = id;
         this.name = name;
@@ -22,7 +23,7 @@ public class StravaActivity {
         this.totalElevationGain = totalElevationGain;
     }
 
-    public String getId() {
+    public int getId() {
         return id;
     }
 
