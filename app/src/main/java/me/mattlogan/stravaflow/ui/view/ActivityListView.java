@@ -42,7 +42,7 @@ public class ActivityListView extends RelativeLayout {
         screen = (ActivityListScreen) activity.getCurrentScreen();
         presenter = new ActivityListPresenter(this);
         if (activity.getActionBar() != null) {
-            activity.getActionBar().setTitle("Activities");
+            activity.getActionBar().setTitle(context.getString(R.string.app_name));
         }
     }
 
