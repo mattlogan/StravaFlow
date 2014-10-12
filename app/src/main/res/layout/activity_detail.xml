@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<me.mattlogan.stravaflow.ui.view.ActivityDetailView xmlns:android="http://schemas.android.com/apk/res/android"
+                                                    android:layout_width="match_parent"
+                                                    android:layout_height="match_parent">
+
+    <LinearLayout
+        android:id="@+id/text_layout"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/date_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="15dp"
+            android:textColor="#333"
+            android:textSize="18sp"/>
+
+        <TextView
+            android:id="@+id/location_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="15dp"
+            android:textColor="#333"
+            android:textSize="18sp"/>
+
+        <TextView
+            android:id="@+id/distance_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="15dp"
+            android:textColor="#333"
+            android:textSize="18sp"/>
+
+        <TextView
+            android:id="@+id/elevation_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="15dp"
+            android:textColor="#333"
+            android:textSize="18sp"/>
+
+
+    </LinearLayout>
+
+</me.mattlogan.stravaflow.ui.view.ActivityDetailView>
