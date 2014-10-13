@@ -34,9 +34,10 @@ public class ActivityListView extends RelativeLayout {
 
     public ActivityListView(Context context, AttributeSet attrs) {
         super(context, attrs);
+        StravaFlowActivity activity = (StravaFlowActivity) getContext();
         presenter = new ActivityListPresenter(this);
-        boss = ViewBoss.getInstance();
-        ActionBar actionBar = ((StravaFlowActivity) getContext()).getActionBar();
+        boss = activity.getBoss();
+        ActionBar actionBar = activity.getActionBar();
         if (actionBar != null) {
             actionBar.setTitle(context.getString(R.string.app_name));
             actionBar.setDisplayHomeAsUpEnabled(false);

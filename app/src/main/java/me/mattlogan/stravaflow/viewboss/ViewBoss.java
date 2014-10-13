@@ -1,31 +1,32 @@
 package me.mattlogan.stravaflow.viewboss;
 
+import android.os.Bundle;
+
 import java.util.Stack;
 
 public class ViewBoss {
+
+    private static final String LAYOUT_STACK_KEY = "layout_stack";
 
     public interface Listener {
         public void showScreen(Screen screen);
     }
 
-    private static ViewBoss singleton;
-
-    private Stack<Screen> layoutStack = new Stack<Screen>();
+    private Stack<Screen> layoutStack;
 
     private Listener listener;
 
-    private ViewBoss() {
-    }
-
-    public void setListener(Listener listener) {
+    public ViewBoss(Listener listener) {
         this.listener = listener;
     }
 
-    public static ViewBoss getInstance() {
-        if (singleton == null) {
-            singleton = new ViewBoss();
+    @SuppressWarnings("unchecked")
+    public void initializeFromSavedInstanceState(Bundle savedInstanceState) {
+        if (savedInstanceState != null && savedInstanceState.containsKey(LAYOUT_STACK_KEY)) {
+            layoutStack = (Stack<Screen>) savedInstanceState.getSerializable(LAYOUT_STACK_KEY);
+        } else {
+            layoutStack = new Stack<Screen>();
         }
-        return singleton;
     }
 
     public void goToScreen(Screen screen) {
@@ -55,5 +56,9 @@ public class ViewBoss {
         if (listener == null) {
             throw new NullPointerException("ViewBoss Listener may not be null");
         }
+    }
+
+    public void onSaveInstanceState(Bundle outState) {
+        outState.putSerializable(LAYOUT_STACK_KEY, layoutStack);
     }
 }

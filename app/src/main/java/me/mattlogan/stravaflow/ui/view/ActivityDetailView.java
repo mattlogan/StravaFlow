@@ -26,11 +26,12 @@ public class ActivityDetailView extends RelativeLayout {
 
     public ActivityDetailView(Context context, AttributeSet attrs) {
         super(context, attrs);
+        StravaFlowActivity activity = (StravaFlowActivity) getContext();
         presenter = new ActivityDetailPresenter(this);
-        boss = ViewBoss.getInstance();
+        boss = activity.getBoss();
         ActivityDetailScreen screen = ((ActivityDetailScreen) boss.current());
         presenter.requestActivity(screen.id);
-        ActionBar actionBar = ((StravaFlowActivity) getContext()).getActionBar();
+        ActionBar actionBar = activity.getActionBar();
         if (actionBar != null) {
             actionBar.setTitle(screen.name);
             actionBar.setDisplayHomeAsUpEnabled(true);

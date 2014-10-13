@@ -24,8 +24,8 @@ public class StravaFlowActivity extends Activity {
         setContentView(R.layout.activity_strava_flow);
         ButterKnife.inject(this);
 
-        boss = ViewBoss.getInstance();
-        boss.setListener(container);
+        boss = new ViewBoss(container);
+        boss.initializeFromSavedInstanceState(savedInstanceState);
 
         if (boss.current() != null) {
             container.showScreen(boss.current());
@@ -51,5 +51,14 @@ public class StravaFlowActivity extends Activity {
     Screen initialScreen() {
         return ((StravaFlowApplication) getApplication()).hasAccessToken() ?
                 new ActivityListScreen() : new AuthScreen();
+    }
+
+    public ViewBoss getBoss() {
+        return boss;
+    }
+
+    @Override public void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        boss.onSaveInstanceState(outState);
     }
 }
