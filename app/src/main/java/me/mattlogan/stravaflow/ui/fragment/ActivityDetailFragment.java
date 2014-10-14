@@ -58,8 +58,14 @@ public class ActivityDetailFragment extends Fragment {
             e.printStackTrace();
         }
 
-        activityDetailView.setLocationText(
-                stravaActivity.getLocationCity() + ", " + stravaActivity.getLocationState());
+        if (stravaActivity.getLocationState() != null &&
+                stravaActivity.getLocationCity() != null) {
+
+            activityDetailView.setLocationText(
+                    stravaActivity.getLocationCity() + ", " + stravaActivity.getLocationState());
+        } else {
+            activityDetailView.setLocationTextVisibility(View.GONE);
+        }
 
         float distMiles = DistanceUtils.meters2miles(stravaActivity.getDistance());
         activityDetailView.setDistanceText(String.format("%.2f", distMiles) + " miles");

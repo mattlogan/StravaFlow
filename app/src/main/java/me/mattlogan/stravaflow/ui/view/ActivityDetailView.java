@@ -29,6 +29,10 @@ public class ActivityDetailView extends RelativeLayout {
         dateText.setText(text);
     }
 
+    public void setLocationTextVisibility(int visibility) {
+        locationText.setVisibility(visibility);
+    }
+
     public void setLocationText(String text) {
         locationText.setText(text);
     }
