@@ -17,7 +17,7 @@ import me.mattlogan.stravaflow.api.model.StravaActivity;
 import me.mattlogan.stravaflow.ui.view.ActivitiesAdapter;
 import me.mattlogan.stravaflow.ui.view.ActivitiesView;
 
-public class ActivitiesFragment extends Fragment
+public class ActivitiesFragment extends BaseFragment
         implements ActivitiesAdapter.OnActivitySelectedListener {
 
     StravaApiBus apiBus = StravaApiBus.getInstance();
@@ -37,8 +37,6 @@ public class ActivitiesFragment extends Fragment
     @Override public View onCreateView(LayoutInflater inflater, ViewGroup container,
                                        Bundle savedInstanceState) {
 
-        getActivity().getActionBar().setTitle(getString(R.string.app_name));
-
         activitiesView =
                 (ActivitiesView) inflater.inflate(R.layout.activities, container, false);
         activitiesView.setListViewAdapter(adapter);
@@ -50,6 +48,10 @@ public class ActivitiesFragment extends Fragment
         super.onResume();
         apiBus.register(this);
         apiBus.post(new ActivitiesRequestedEvent(System.currentTimeMillis()));
+    }
+
+    @Override protected String getTitle() {
+        return getString(R.string.app_name);
     }
 
     @Override public void onPause() {

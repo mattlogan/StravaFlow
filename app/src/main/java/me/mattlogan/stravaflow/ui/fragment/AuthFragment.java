@@ -1,6 +1,7 @@
 package me.mattlogan.stravaflow.ui.fragment;
 
-import android.app.Fragment;
+import android.app.Activity;
+import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -16,9 +17,10 @@ import me.mattlogan.stravaflow.api.StravaApiBus;
 import me.mattlogan.stravaflow.api.event.ActivitiesRequestedEvent;
 import me.mattlogan.stravaflow.api.event.AuthenticateRequestedEvent;
 import me.mattlogan.stravaflow.api.event.AuthenticateSuccessEvent;
+import me.mattlogan.stravaflow.ui.activity.ActivitiesActivity;
 import me.mattlogan.stravaflow.ui.view.AuthWebView;
 
-public class AuthFragment extends Fragment {
+public class AuthFragment extends BaseFragment {
 
     StravaApiBus apiBus = StravaApiBus.getInstance();
 
@@ -55,6 +57,10 @@ public class AuthFragment extends Fragment {
         apiBus.post(new ActivitiesRequestedEvent(System.currentTimeMillis()));
     }
 
+    @Override protected String getTitle() {
+        return getString(R.string.app_name);
+    }
+
     @Override public void onPause() {
         super.onPause();
         apiBus.unregister(this);
@@ -65,10 +71,11 @@ public class AuthFragment extends Fragment {
     }
 
     @Subscribe public void onAuthenticateSuccess(AuthenticateSuccessEvent event) {
-        getActivity().getFragmentManager()
-                .beginTransaction()
-                .replace(R.id.container, ActivitiesFragment.newInstance())
-                .commit();
+        Activity activity = getActivity();
+        if (activity != null) {
+            Intent intent = new Intent(activity, ActivitiesActivity.class);
+            activity.startActivity(intent);
+        }
     }
 
     void handleAccessDenied() {

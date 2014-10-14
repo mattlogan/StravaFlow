@@ -1,10 +1,10 @@
 package me.mattlogan.stravaflow.ui.activity;
 
+import android.app.ActionBar;
 import android.app.Activity;
 import android.app.Fragment;
 import android.app.FragmentManager;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.MenuItem;
 
 import me.mattlogan.stravaflow.R;
@@ -14,8 +14,7 @@ public abstract class BaseActivity extends Activity
 
     private FragmentManager fragmentManager;
 
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    @Override protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.base);
         fragmentManager = getFragmentManager();
@@ -46,6 +45,9 @@ public abstract class BaseActivity extends Activity
     }
 
     private void checkBackStack() {
-        getActionBar().setDisplayHomeAsUpEnabled(fragmentManager.getBackStackEntryCount() > 0);
+        ActionBar actionBar = getActionBar();
+        if (actionBar != null) {
+            actionBar.setDisplayHomeAsUpEnabled(fragmentManager.getBackStackEntryCount() > 0);
+        }
     }
 }

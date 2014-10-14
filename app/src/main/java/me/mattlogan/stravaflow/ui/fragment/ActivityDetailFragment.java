@@ -17,7 +17,7 @@ import me.mattlogan.stravaflow.api.model.StravaActivity;
 import me.mattlogan.stravaflow.ui.view.ActivityDetailView;
 import me.mattlogan.stravaflow.util.DistanceUtils;
 
-public class ActivityDetailFragment extends Fragment {
+public class ActivityDetailFragment extends BaseFragment {
 
     private static final String STRAVA_ACTIVITY_KEY = "strava_activity";
 
@@ -42,9 +42,6 @@ public class ActivityDetailFragment extends Fragment {
 
     @Override public View onCreateView(LayoutInflater inflater, ViewGroup container,
                                        Bundle savedInstanceState) {
-
-        ActionBar actionBar = getActivity().getActionBar();
-        actionBar.setTitle(stravaActivity.getName());
 
         activityDetailView =
                 (ActivityDetailView) inflater.inflate(R.layout.activity_detail, container, false);
@@ -74,5 +71,9 @@ public class ActivityDetailFragment extends Fragment {
         activityDetailView.setElevationText(String.valueOf(elevFeet) + " feet elevation gain");
 
         return activityDetailView;
+    }
+
+    @Override protected String getTitle() {
+        return stravaActivity.getName();
     }
 }
