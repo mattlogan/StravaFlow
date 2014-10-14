@@ -1,15 +1,15 @@
-package me.mattlogan.stravaflow;
+package me.mattlogan.stravaflow.ui.activity;
 
 import android.app.Activity;
 import android.app.Fragment;
 import android.app.FragmentManager;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.MenuItem;
 
-import me.mattlogan.stravaflow.ui.fragment.ActivitiesFragment;
-import me.mattlogan.stravaflow.ui.fragment.AuthFragment;
+import me.mattlogan.stravaflow.R;
 
-public class StravaFlowActivity extends Activity
+public abstract class BaseActivity extends Activity
         implements FragmentManager.OnBackStackChangedListener {
 
     private FragmentManager fragmentManager;
@@ -17,21 +17,22 @@ public class StravaFlowActivity extends Activity
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_strava_flow);
+        setContentView(R.layout.base);
         fragmentManager = getFragmentManager();
         fragmentManager.addOnBackStackChangedListener(this);
-        fragmentManager.beginTransaction()
-                .add(R.id.container, getInitialFragment())
-                .commit();
+        if (savedInstanceState == null) {
+            fragmentManager.beginTransaction()
+                    .add(R.id.container, getInitialFragment())
+                    .commit();
+        } else {
+            checkBackStack();
+        }
     }
 
-    private Fragment getInitialFragment() {
-        return ((StravaFlowApplication) getApplication()).hasAccessToken() ?
-                ActivitiesFragment.newInstance() : AuthFragment.newInstance();
-    }
+    protected abstract Fragment getInitialFragment();
 
     @Override public void onBackStackChanged() {
-        getActionBar().setDisplayHomeAsUpEnabled(fragmentManager.getBackStackEntryCount() > 0);
+        checkBackStack();
     }
 
     @Override
@@ -42,5 +43,9 @@ public class StravaFlowActivity extends Activity
                 return true;
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    private void checkBackStack() {
+        getActionBar().setDisplayHomeAsUpEnabled(fragmentManager.getBackStackEntryCount() > 0);
     }
 }
