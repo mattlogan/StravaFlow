@@ -24,14 +24,14 @@ public abstract class BaseActivity extends Activity
                     .add(R.id.container, getInitialFragment())
                     .commit();
         } else {
-            checkBackStack();
+            configureUpButton();
         }
     }
 
     protected abstract Fragment getInitialFragment();
 
     @Override public void onBackStackChanged() {
-        checkBackStack();
+        configureUpButton();
     }
 
     @Override
@@ -44,7 +44,7 @@ public abstract class BaseActivity extends Activity
         return super.onOptionsItemSelected(item);
     }
 
-    private void checkBackStack() {
+    private void configureUpButton() {
         ActionBar actionBar = getActionBar();
         if (actionBar != null) {
             actionBar.setDisplayHomeAsUpEnabled(fragmentManager.getBackStackEntryCount() > 0);
