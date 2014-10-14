@@ -1,6 +1,6 @@
 package me.mattlogan.stravaflow.ui.fragment;
 
-import android.app.Fragment;
+import android.app.Activity;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -20,10 +20,14 @@ import me.mattlogan.stravaflow.ui.view.ActivitiesView;
 public class ActivitiesFragment extends BaseFragment
         implements ActivitiesAdapter.OnActivitySelectedListener {
 
-    StravaApiBus apiBus = StravaApiBus.getInstance();
+    public interface Listener {
+        public void onActivitySelected(StravaActivity stravaActivity);
+    }
 
-    ActivitiesView activitiesView;
-    ActivitiesAdapter adapter;
+    private StravaApiBus apiBus = StravaApiBus.getInstance();
+
+    private ActivitiesView activitiesView;
+    private ActivitiesAdapter adapter;
 
     public static ActivitiesFragment newInstance() {
         return new ActivitiesFragment();
@@ -67,11 +71,10 @@ public class ActivitiesFragment extends BaseFragment
     @Subscribe public void onActivitiesFailed(ActivitiesFailedEvent event) {
     }
 
-    @Override public void onActivitySelected(StravaActivity activity) {
-        getActivity().getFragmentManager()
-                .beginTransaction()
-                .replace(R.id.container, ActivityDetailFragment.newInstance(activity))
-                .addToBackStack(null)
-                .commit();
+    @Override public void onActivitySelected(StravaActivity stravaActivity) {
+        Activity activity = getActivity();
+        if (activity instanceof Listener) {
+            ((Listener) activity).onActivitySelected(stravaActivity);
+        }
     }
 }

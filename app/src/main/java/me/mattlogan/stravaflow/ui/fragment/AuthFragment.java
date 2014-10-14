@@ -22,9 +22,9 @@ import me.mattlogan.stravaflow.ui.view.AuthWebView;
 
 public class AuthFragment extends BaseFragment {
 
-    StravaApiBus apiBus = StravaApiBus.getInstance();
+    private StravaApiBus apiBus = StravaApiBus.getInstance();
 
-    AuthWebView authWebView;
+    private AuthWebView authWebView;
 
     public static AuthFragment newInstance() {
         return new AuthFragment();
@@ -66,7 +66,7 @@ public class AuthFragment extends BaseFragment {
         apiBus.unregister(this);
     }
 
-    void finishAuth(String code) {
+    private void finishAuth(String code) {
         apiBus.post(new AuthenticateRequestedEvent(code));
     }
 
@@ -78,6 +78,6 @@ public class AuthFragment extends BaseFragment {
         }
     }
 
-    void handleAccessDenied() {
+    private void handleAccessDenied() {
     }
 }

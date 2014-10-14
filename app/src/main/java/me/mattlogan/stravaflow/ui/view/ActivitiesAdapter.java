@@ -19,7 +19,7 @@ public class ActivitiesAdapter extends BaseAdapter {
     private List<StravaActivity> activities;
 
     public interface OnActivitySelectedListener {
-        public void onActivitySelected(StravaActivity activity);
+        public void onActivitySelected(StravaActivity stravaActivity);
     }
 
     public ActivitiesAdapter(Context context, OnActivitySelectedListener listener) {
