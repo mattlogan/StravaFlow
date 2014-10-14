@@ -65,7 +65,10 @@ public class AuthFragment extends Fragment {
     }
 
     @Subscribe public void onAuthenticateSuccess(AuthenticateSuccessEvent event) {
-        // todo: go to activity list
+        getActivity().getFragmentManager()
+                .beginTransaction()
+                .replace(R.id.container, ActivitiesFragment.newInstance())
+                .commit();
     }
 
     void handleAccessDenied() {

@@ -1,6 +1,5 @@
 package me.mattlogan.stravaflow.ui.fragment;
 
-import android.app.ActionBar;
 import android.app.Fragment;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -30,6 +29,11 @@ public class ActivitiesFragment extends Fragment
         return new ActivitiesFragment();
     }
 
+    @Override public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        adapter = new ActivitiesAdapter(getActivity(), this);
+    }
+
     @Override public View onCreateView(LayoutInflater inflater, ViewGroup container,
                                        Bundle savedInstanceState) {
 
@@ -37,8 +41,8 @@ public class ActivitiesFragment extends Fragment
 
         activitiesView =
                 (ActivitiesView) inflater.inflate(R.layout.activities, container, false);
-        adapter = new ActivitiesAdapter(getActivity(), this);
         activitiesView.setListViewAdapter(adapter);
+
         return activitiesView;
     }
 

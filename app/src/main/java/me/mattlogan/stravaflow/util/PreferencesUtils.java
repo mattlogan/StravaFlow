@@ -2,9 +2,6 @@ package me.mattlogan.stravaflow.util;
 
 import android.content.Context;
 
-/**
- * Created by matthewlogan on 8/27/14.
- */
 public class PreferencesUtils {
 
     private static final String STRAVA_STATS_PREFERENCES = "STRAVA_STATS_PREFERENCES";

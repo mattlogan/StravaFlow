@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.app.Fragment;
 import android.app.FragmentManager;
 import android.os.Bundle;
+import android.view.MenuItem;
 
 import butterknife.ButterKnife;
 import me.mattlogan.stravaflow.ui.fragment.ActivitiesFragment;
@@ -18,7 +19,6 @@ public class StravaFlowActivity extends Activity
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_strava_flow);
-        ButterKnife.inject(this);
         fragmentManager = getFragmentManager();
         fragmentManager.addOnBackStackChangedListener(this);
         fragmentManager.beginTransaction()
@@ -33,5 +33,15 @@ public class StravaFlowActivity extends Activity
 
     @Override public void onBackStackChanged() {
         getActionBar().setDisplayHomeAsUpEnabled(fragmentManager.getBackStackEntryCount() > 0);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch(item.getItemId()) {
+            case android.R.id.home:
+                fragmentManager.popBackStack();
+                return true;
+        }
+        return super.onOptionsItemSelected(item);
     }
 }
