@@ -56,7 +56,7 @@ public class StravaApiHandler {
     }
 
     @Subscribe public void onActivitiesRequested(ActivitiesRequestedEvent event) {
-        stravaApi.getActivities(event.getAfter(), new Callback<List<StravaActivity>>() {
+        stravaApi.getActivities(event.getBefore(), new Callback<List<StravaActivity>>() {
             @Override public void success(List<StravaActivity> activities, Response response) {
                 stravaApiBus.post(new ActivitiesSuccessEvent(activities));
             }

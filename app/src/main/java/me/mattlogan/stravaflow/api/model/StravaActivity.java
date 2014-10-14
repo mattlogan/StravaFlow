@@ -1,6 +1,8 @@
 package me.mattlogan.stravaflow.api.model;
 
-public class StravaActivity {
+import java.io.Serializable;
+
+public class StravaActivity implements Serializable {
 
     int id;
 

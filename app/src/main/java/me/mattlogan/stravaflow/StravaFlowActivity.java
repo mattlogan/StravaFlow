@@ -1,64 +1,37 @@
 package me.mattlogan.stravaflow;
 
 import android.app.Activity;
+import android.app.Fragment;
+import android.app.FragmentManager;
 import android.os.Bundle;
-import android.view.MenuItem;
 
 import butterknife.ButterKnife;
-import butterknife.InjectView;
-import me.mattlogan.stravaflow.ui.screens.ActivityListScreen;
-import me.mattlogan.stravaflow.ui.screens.AuthScreen;
-import me.mattlogan.stravaflow.ui.view.Container;
-import me.mattlogan.stravaflow.viewboss.Screen;
-import me.mattlogan.stravaflow.viewboss.ViewBoss;
+import me.mattlogan.stravaflow.ui.fragment.ActivitiesFragment;
+import me.mattlogan.stravaflow.ui.fragment.AuthFragment;
 
-public class StravaFlowActivity extends Activity {
+public class StravaFlowActivity extends Activity
+        implements FragmentManager.OnBackStackChangedListener {
 
-    ViewBoss boss;
-
-    @InjectView(R.id.container) Container container;
+    private FragmentManager fragmentManager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_strava_flow);
         ButterKnife.inject(this);
-
-        boss = new ViewBoss(container);
-        boss.initializeFromSavedInstanceState(savedInstanceState);
-
-        if (boss.current() != null) {
-            container.showScreen(boss.current());
-        } else {
-            boss.goToScreen(initialScreen());
-        }
+        fragmentManager = getFragmentManager();
+        fragmentManager.addOnBackStackChangedListener(this);
+        fragmentManager.beginTransaction()
+                .add(R.id.container, getInitialFragment())
+                .commit();
     }
 
-    @Override public void onBackPressed() {
-        if (!boss.goBack()) {
-            super.onBackPressed();
-        }
-    }
-
-    @Override public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()) {
-            case android.R.id.home:
-                return boss.goBack();
-        }
-        return super.onOptionsItemSelected(item);
-    }
-
-    Screen initialScreen() {
+    private Fragment getInitialFragment() {
         return ((StravaFlowApplication) getApplication()).hasAccessToken() ?
-                new ActivityListScreen() : new AuthScreen();
+                ActivitiesFragment.newInstance() : AuthFragment.newInstance();
     }
 
-    public ViewBoss getBoss() {
-        return boss;
-    }
-
-    @Override public void onSaveInstanceState(Bundle outState) {
-        super.onSaveInstanceState(outState);
-        boss.onSaveInstanceState(outState);
+    @Override public void onBackStackChanged() {
+        getActionBar().setDisplayHomeAsUpEnabled(fragmentManager.getBackStackEntryCount() > 0);
     }
 }

@@ -1,17 +1,14 @@
 package me.mattlogan.stravaflow.api.event;
 
-/**
- * Created by matthewlogan on 8/26/14.
- */
 public class ActivitiesRequestedEvent {
 
-    Long after;
+    Long before;
 
-    public ActivitiesRequestedEvent(Long after) {
-        this.after = after;
+    public ActivitiesRequestedEvent(Long before) {
+        this.before = before;
     }
 
-    public Long getAfter() {
-        return after;
+    public Long getBefore() {
+        return before;
     }
 }
