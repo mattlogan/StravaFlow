@@ -6,7 +6,6 @@ import android.app.FragmentManager;
 import android.os.Bundle;
 import android.view.MenuItem;
 
-import butterknife.ButterKnife;
 import me.mattlogan.stravaflow.ui.fragment.ActivitiesFragment;
 import me.mattlogan.stravaflow.ui.fragment.AuthFragment;
 
