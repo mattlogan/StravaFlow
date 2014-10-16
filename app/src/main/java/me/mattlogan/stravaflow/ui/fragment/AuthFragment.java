@@ -85,8 +85,8 @@ public class AuthFragment extends BaseFragment {
 
                     @Override
                     public void success(AuthResponse authResponse, Response response) {
-                        Activity activity = getActivity();
                         if (isAdded()) {
+                            Activity activity = getActivity();
                             getStravaFlowApp(activity).saveAccessToken(authResponse.getAccessToken());
                             Intent intent = new Intent(activity, ActivitiesActivity.class);
                             activity.startActivity(intent);
