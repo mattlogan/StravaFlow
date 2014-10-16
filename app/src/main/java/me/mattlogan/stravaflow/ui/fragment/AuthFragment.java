@@ -85,12 +85,8 @@ public class AuthFragment extends BaseFragment {
 
                     @Override
                     public void success(AuthResponse authResponse, Response response) {
-                        if (isAdded()) {
-                            Activity activity = getActivity();
-                            getStravaFlowApp(activity).saveAccessToken(authResponse.getAccessToken());
-                            Intent intent = new Intent(activity, ActivitiesActivity.class);
-                            activity.startActivity(intent);
-                        }
+                        saveAccessToken(authResponse.getAccessToken());
+                        launchActivitiesActivity();
                     }
 
                     @Override
@@ -101,5 +97,20 @@ public class AuthFragment extends BaseFragment {
     }
 
     private void handleAccessDenied() {
+    }
+
+    private void saveAccessToken(String accessToken) {
+        Activity activity = getActivity();
+        if (activity != null) {
+            getStravaFlowApp(activity).saveAccessToken(accessToken);
+        }
+    }
+
+    private void launchActivitiesActivity() {
+        Activity activity = getActivity();
+        if (activity != null) {
+            Intent intent = new Intent(activity, ActivitiesActivity.class);
+            activity.startActivity(intent);
+        }
     }
 }
