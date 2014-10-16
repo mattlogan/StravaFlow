@@ -6,7 +6,8 @@ import me.mattlogan.stravaflow.ui.fragment.AuthFragment;
 
 public class AuthActivity extends BaseActivity {
 
-    @Override protected Fragment getInitialFragment() {
+    @Override
+    protected Fragment getInitialFragment() {
         return AuthFragment.newInstance();
     }
 }

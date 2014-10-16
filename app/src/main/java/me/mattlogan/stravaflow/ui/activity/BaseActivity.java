@@ -15,7 +15,8 @@ public abstract class BaseActivity extends Activity
 
     private FragmentManager fragmentManager;
 
-    @Override protected void onCreate(Bundle savedInstanceState) {
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.base);
         fragmentManager = getFragmentManager();
@@ -31,13 +32,14 @@ public abstract class BaseActivity extends Activity
 
     protected abstract Fragment getInitialFragment();
 
-    @Override public void onBackStackChanged() {
+    @Override
+    public void onBackStackChanged() {
         configureUpButton();
     }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        switch(item.getItemId()) {
+        switch (item.getItemId()) {
             case android.R.id.home:
                 fragmentManager.popBackStack();
                 return true;

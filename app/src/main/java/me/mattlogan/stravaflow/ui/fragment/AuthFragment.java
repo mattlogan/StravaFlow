@@ -10,19 +10,20 @@ import android.view.ViewGroup;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 
+import butterknife.ButterKnife;
+import butterknife.InjectView;
 import me.mattlogan.stravaflow.R;
 import me.mattlogan.stravaflow.api.StravaApi;
 import me.mattlogan.stravaflow.api.model.AuthResponse;
 import me.mattlogan.stravaflow.api.util.ApiUtils;
 import me.mattlogan.stravaflow.ui.activity.ActivitiesActivity;
-import me.mattlogan.stravaflow.ui.view.AuthWebView;
 import retrofit.Callback;
 import retrofit.RetrofitError;
 import retrofit.client.Response;
 
 public class AuthFragment extends BaseFragment {
 
-    private AuthWebView authWebView;
+    @InjectView(R.id.auth_webview) WebView authWebView;
 
     private StravaApi stravaApi;
 
@@ -34,7 +35,20 @@ public class AuthFragment extends BaseFragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
-        authWebView = (AuthWebView) inflater.inflate(R.layout.auth, container, false);
+        View view = inflater.inflate(R.layout.auth, container, false);
+        ButterKnife.inject(this, view);
+        setupWebView();
+        return view;
+    }
+
+    private void setupWebView() {
+        String clientId = getResources().getString(R.string.client_id);
+        String url = "https://www.strava.com/oauth/authorize?" +
+                "client_id=" + clientId +
+                "&response_type=code" +
+                "&redirect_uri=http://localhost" +
+                "&approval_prompt=force";
+
         authWebView.setWebViewClient(new WebViewClient() {
             @Override
             public boolean shouldOverrideUrlLoading(WebView view, String url) {
@@ -50,7 +64,8 @@ public class AuthFragment extends BaseFragment {
                 return super.shouldOverrideUrlLoading(view, url);
             }
         });
-        return authWebView;
+
+        authWebView.loadUrl(url);
     }
 
     @Override
@@ -68,21 +83,21 @@ public class AuthFragment extends BaseFragment {
         stravaApi.authenticate(ApiUtils.getAuthParams(getActivity(), code),
                 new Callback<AuthResponse>() {
 
-            @Override
-            public void success(AuthResponse authResponse, Response response) {
-                Activity activity = getActivity();
-                if (activity != null) {
-                    getStravaFlowApp(activity).saveAccessToken(authResponse.getAccessToken());
-                    Intent intent = new Intent(activity, ActivitiesActivity.class);
-                    activity.startActivity(intent);
-                }
-            }
+                    @Override
+                    public void success(AuthResponse authResponse, Response response) {
+                        Activity activity = getActivity();
+                        if (isAdded()) {
+                            getStravaFlowApp(activity).saveAccessToken(authResponse.getAccessToken());
+                            Intent intent = new Intent(activity, ActivitiesActivity.class);
+                            activity.startActivity(intent);
+                        }
+                    }
 
-            @Override
-            public void failure(RetrofitError error) {
+                    @Override
+                    public void failure(RetrofitError error) {
 
-            }
-        });
+                    }
+                });
     }
 
     private void handleAccessDenied() {

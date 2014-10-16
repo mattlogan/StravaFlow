@@ -4,22 +4,23 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
-import java.text.DateFormat;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.Date;
-
+import butterknife.ButterKnife;
+import butterknife.InjectView;
 import me.mattlogan.stravaflow.R;
 import me.mattlogan.stravaflow.api.model.StravaActivity;
-import me.mattlogan.stravaflow.ui.view.ActivityDetailView;
+import me.mattlogan.stravaflow.util.DateUtils;
 import me.mattlogan.stravaflow.util.DistanceUtils;
 
 public class ActivityDetailFragment extends BaseFragment {
 
-    private static final String STRAVA_ACTIVITY_KEY = "strava_activity";
+    @InjectView(R.id.date_text) TextView dateText;
+    @InjectView(R.id.location_text) TextView locationText;
+    @InjectView(R.id.distance_text) TextView distanceText;
+    @InjectView(R.id.elevation_text) TextView elevationText;
 
-    private ActivityDetailView activityDetailView;
+    private static final String STRAVA_ACTIVITY_KEY = "strava_activity";
 
     private StravaActivity stravaActivity;
 
@@ -33,45 +34,41 @@ public class ActivityDetailFragment extends BaseFragment {
         return fragment;
     }
 
-    @Override public void onCreate(Bundle savedInstanceState) {
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         stravaActivity = (StravaActivity) getArguments().getSerializable(STRAVA_ACTIVITY_KEY);
     }
 
-    @Override public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                                       Bundle savedInstanceState) {
+    @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+                             Bundle savedInstanceState) {
 
-        activityDetailView =
-                (ActivityDetailView) inflater.inflate(R.layout.activity_detail, container, false);
-
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss'Z'");
-        try {
-            Date date = sdf.parse(stravaActivity.getStartDate());
-            DateFormat df = DateFormat.getDateTimeInstance();
-            activityDetailView.setDateText(df.format(date));
-        } catch (ParseException e) {
-            e.printStackTrace();
-        }
-
-        if (stravaActivity.getLocationState() != null &&
-                stravaActivity.getLocationCity() != null) {
-
-            activityDetailView.setLocationText(
-                    stravaActivity.getLocationCity() + ", " + stravaActivity.getLocationState());
-        } else {
-            activityDetailView.setLocationTextVisibility(View.GONE);
-        }
-
-        float distMiles = DistanceUtils.meters2miles(stravaActivity.getDistance());
-        activityDetailView.setDistanceText(String.format("%.2f", distMiles) + " miles");
-
-        int elevFeet = (int) DistanceUtils.meters2feet(stravaActivity.getTotalElevationGain());
-        activityDetailView.setElevationText(String.valueOf(elevFeet) + " feet elevation gain");
-
+        View activityDetailView = inflater.inflate(R.layout.activity_detail, container, false);
+        ButterKnife.inject(this, activityDetailView);
+        setupViews();
         return activityDetailView;
     }
 
-    @Override protected String getTitle() {
+    private void setupViews() {
+        dateText.setText(DateUtils.formatStravaDate(stravaActivity.getStartDate()));
+
+        if (stravaActivity.getLocationState() != null && stravaActivity.getLocationCity() != null) {
+            locationText.setText(stravaActivity.getLocationCity() + ", "
+                    + stravaActivity.getLocationState());
+        } else {
+            locationText.setVisibility(View.GONE);
+        }
+
+        float distMiles = DistanceUtils.meters2miles(stravaActivity.getDistance());
+        distanceText.setText(String.format("%.2f", distMiles) + " miles");
+
+        int elevFeet = (int) DistanceUtils.meters2feet(stravaActivity.getTotalElevationGain());
+        elevationText.setText(String.valueOf(elevFeet) + " feet elevation gain");
+    }
+
+    @Override
+    protected String getTitle() {
         return stravaActivity.getName();
     }
 }

@@ -19,7 +19,8 @@ public class StravaFlowApplication extends Application {
     private StravaApi stravaApi;
     private String accessToken;
 
-    @Override public void onCreate() {
+    @Override
+    public void onCreate() {
         super.onCreate();
         stravaApi = buildStravaApi();
         accessToken = PreferencesUtils.retrieveAccessToken(this);
@@ -40,7 +41,8 @@ public class StravaFlowApplication extends Application {
 //                    }
 //                })
                 .setRequestInterceptor(new RequestInterceptor() {
-                    @Override public void intercept(RequestFacade request) {
+                    @Override
+                    public void intercept(RequestFacade request) {
                         if (accessToken != null) {
                             request.addHeader("Authorization", " Bearer " + accessToken);
                         }

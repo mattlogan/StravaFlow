@@ -1,8 +1,5 @@
 package me.mattlogan.stravaflow.api.model;
 
-/**
- * Created by matthewlogan on 8/25/14.
- */
 public class AuthResponse {
 
     String accessToken;

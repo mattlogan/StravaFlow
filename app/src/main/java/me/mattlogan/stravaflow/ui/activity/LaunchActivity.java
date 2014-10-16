@@ -8,7 +8,8 @@ import me.mattlogan.stravaflow.StravaFlowApplication;
 
 public class LaunchActivity extends Activity {
 
-    @Override protected void onCreate(Bundle savedInstanceState) {
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
         Class firstActivity = ((StravaFlowApplication) getApplication()).hasAccessToken() ?

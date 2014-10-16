@@ -9,7 +9,8 @@ import me.mattlogan.stravaflow.api.StravaApi;
 
 public abstract class BaseFragment extends Fragment {
 
-    @Override public void onResume() {
+    @Override
+    public void onResume() {
         super.onResume();
         Activity activity = getActivity();
         if (activity != null) {

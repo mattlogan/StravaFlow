@@ -2,17 +2,20 @@ package me.mattlogan.stravaflow.ui.fragment;
 
 import android.app.Activity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ListView;
 
 import java.util.List;
 
+import butterknife.ButterKnife;
+import butterknife.InjectView;
 import me.mattlogan.stravaflow.R;
 import me.mattlogan.stravaflow.api.StravaApi;
 import me.mattlogan.stravaflow.api.model.StravaActivity;
 import me.mattlogan.stravaflow.ui.view.ActivitiesAdapter;
-import me.mattlogan.stravaflow.ui.view.ActivitiesView;
 import retrofit.Callback;
 import retrofit.RetrofitError;
 import retrofit.client.Response;
@@ -20,11 +23,12 @@ import retrofit.client.Response;
 public class ActivitiesFragment extends BaseFragment
         implements ActivitiesAdapter.OnActivitySelectedListener {
 
+    @InjectView(R.id.activities_list) ListView listView;
+
     public interface Listener {
         public void onActivitySelected(StravaActivity stravaActivity);
     }
 
-    private ActivitiesView activitiesView;
     private ActivitiesAdapter adapter;
     private StravaApi stravaApi;
 
@@ -32,31 +36,39 @@ public class ActivitiesFragment extends BaseFragment
         return new ActivitiesFragment();
     }
 
-    @Override public void onCreate(Bundle savedInstanceState) {
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         adapter = new ActivitiesAdapter(getActivity(), this);
     }
 
-    @Override public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                                       Bundle savedInstanceState) {
+    @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+                             Bundle savedInstanceState) {
 
-        activitiesView =
-                (ActivitiesView) inflater.inflate(R.layout.activities, container, false);
-        activitiesView.setListViewAdapter(adapter);
-
+        View activitiesView = inflater.inflate(R.layout.activities, container, false);
+        ButterKnife.inject(this, activitiesView);
+        setupListView();
         return activitiesView;
     }
 
-    @Override protected String getTitle() {
+    private void setupListView() {
+        listView.setAdapter(adapter);
+    }
+
+    @Override
+    protected String getTitle() {
         return getString(R.string.app_name);
     }
 
-    @Override public void onAttach(Activity activity) {
+    @Override
+    public void onAttach(Activity activity) {
         super.onAttach(activity);
         stravaApi = getStravaFlowApp(activity).getStravaApi();
     }
 
-    @Override public void onResume() {
+    @Override
+    public void onResume() {
         super.onResume();
         fetchActivities();
     }
@@ -65,7 +77,7 @@ public class ActivitiesFragment extends BaseFragment
         stravaApi.getActivities(System.currentTimeMillis(), new Callback<List<StravaActivity>>() {
             @Override
             public void success(List<StravaActivity> stravaActivities, Response response) {
-                if (adapter != null) {
+                if (isAdded()) {
                     adapter.setActivitiesList(stravaActivities);
                     adapter.notifyDataSetChanged();
                 }
@@ -77,7 +89,8 @@ public class ActivitiesFragment extends BaseFragment
         });
     }
 
-    @Override public void onActivitySelected(StravaActivity stravaActivity) {
+    @Override
+    public void onActivitySelected(StravaActivity stravaActivity) {
         Activity activity = getActivity();
         if (activity instanceof Listener) {
             ((Listener) activity).onActivitySelected(stravaActivity);

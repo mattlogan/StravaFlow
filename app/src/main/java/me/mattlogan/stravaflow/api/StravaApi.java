@@ -13,13 +13,12 @@ import retrofit.http.Query;
 import retrofit.http.QueryMap;
 
 public interface StravaApi {
-    @POST("/oauth/token") void authenticate(
-            @QueryMap Map<String, String> params, Callback<AuthResponse> callback);
+    @POST("/oauth/token")
+    void authenticate(@QueryMap Map<String, String> params, Callback<AuthResponse> callback);
 
-    @GET("/api/v3/athlete/activities") void getActivities(
-            @Query("before") Long before, Callback<List<StravaActivity>> activities);
+    @GET("/api/v3/athlete/activities")
+    void getActivities(@Query("before") Long before, Callback<List<StravaActivity>> activities);
 
-    @GET("/api/v3/activities/{id}") void getActivity(
-            @Path("id") Integer id, Callback<StravaActivity> activity);
-
+    @GET("/api/v3/activities/{id}")
+    void getActivity(@Path("id") Integer id, Callback<StravaActivity> activity);
 }

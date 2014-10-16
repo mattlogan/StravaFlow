@@ -9,11 +9,13 @@ import me.mattlogan.stravaflow.ui.fragment.ActivityDetailFragment;
 
 public class ActivitiesActivity extends BaseActivity implements ActivitiesFragment.Listener {
 
-    @Override protected Fragment getInitialFragment() {
+    @Override
+    protected Fragment getInitialFragment() {
         return ActivitiesFragment.newInstance();
     }
 
-    @Override public void onActivitySelected(StravaActivity stravaActivity) {
+    @Override
+    public void onActivitySelected(StravaActivity stravaActivity) {
         getFragmentManager().beginTransaction()
                 .replace(R.id.container, ActivityDetailFragment.newInstance(stravaActivity))
                 .addToBackStack(null)
