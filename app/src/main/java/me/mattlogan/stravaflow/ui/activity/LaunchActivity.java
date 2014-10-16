@@ -11,11 +11,12 @@ public class LaunchActivity extends Activity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
-        Class firstActivity = ((StravaFlowApplication) getApplication()).hasAccessToken() ?
-                ActivitiesActivity.class : AuthActivity.class;
-
-        Intent intent = new Intent(this, firstActivity);
+        Intent intent = new Intent(this, getInitialActivity());
         startActivity(intent);
+    }
+
+    Class getInitialActivity() {
+        return ((StravaFlowApplication) getApplication()).hasAccessToken() ?
+                ActivitiesActivity.class : AuthActivity.class;
     }
 }

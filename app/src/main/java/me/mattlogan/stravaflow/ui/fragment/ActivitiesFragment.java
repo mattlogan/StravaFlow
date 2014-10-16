@@ -2,7 +2,6 @@ package me.mattlogan.stravaflow.ui.fragment;
 
 import android.app.Activity;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -29,8 +28,8 @@ public class ActivitiesFragment extends BaseFragment
         public void onActivitySelected(StravaActivity stravaActivity);
     }
 
-    private ActivitiesAdapter adapter;
-    private StravaApi stravaApi;
+    ActivitiesAdapter adapter;
+    StravaApi stravaApi;
 
     public static ActivitiesFragment newInstance() {
         return new ActivitiesFragment();
@@ -52,7 +51,7 @@ public class ActivitiesFragment extends BaseFragment
         return activitiesView;
     }
 
-    private void setupListView() {
+    void setupListView() {
         listView.setAdapter(adapter);
     }
 
@@ -73,7 +72,7 @@ public class ActivitiesFragment extends BaseFragment
         fetchActivities();
     }
 
-    private void fetchActivities() {
+    void fetchActivities() {
         stravaApi.getActivities(System.currentTimeMillis(), new Callback<List<StravaActivity>>() {
             @Override
             public void success(List<StravaActivity> stravaActivities, Response response) {

@@ -13,7 +13,7 @@ import me.mattlogan.stravaflow.StravaFlowApplication;
 public abstract class BaseActivity extends Activity
         implements FragmentManager.OnBackStackChangedListener {
 
-    private FragmentManager fragmentManager;
+    FragmentManager fragmentManager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -47,7 +47,7 @@ public abstract class BaseActivity extends Activity
         return super.onOptionsItemSelected(item);
     }
 
-    private void configureUpButton() {
+    void configureUpButton() {
         ActionBar actionBar = getActionBar();
         if (actionBar != null) {
             actionBar.setDisplayHomeAsUpEnabled(fragmentManager.getBackStackEntryCount() > 0);

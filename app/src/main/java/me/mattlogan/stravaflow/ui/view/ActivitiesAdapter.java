@@ -14,9 +14,9 @@ import me.mattlogan.stravaflow.api.model.StravaActivity;
 
 public class ActivitiesAdapter extends BaseAdapter {
 
-    private Context context;
-    private OnActivitySelectedListener listener;
-    private List<StravaActivity> activities;
+    Context context;
+    OnActivitySelectedListener listener;
+    List<StravaActivity> activities;
 
     public interface OnActivitySelectedListener {
         public void onActivitySelected(StravaActivity stravaActivity);

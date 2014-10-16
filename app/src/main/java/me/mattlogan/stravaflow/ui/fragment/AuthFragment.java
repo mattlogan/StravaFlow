@@ -25,7 +25,7 @@ public class AuthFragment extends BaseFragment {
 
     @InjectView(R.id.auth_webview) WebView authWebView;
 
-    private StravaApi stravaApi;
+    StravaApi stravaApi;
 
     public static AuthFragment newInstance() {
         return new AuthFragment();
@@ -41,7 +41,7 @@ public class AuthFragment extends BaseFragment {
         return view;
     }
 
-    private void setupWebView() {
+    void setupWebView() {
         String clientId = getResources().getString(R.string.client_id);
         String url = "https://www.strava.com/oauth/authorize?" +
                 "client_id=" + clientId +
@@ -79,7 +79,7 @@ public class AuthFragment extends BaseFragment {
         stravaApi = getStravaFlowApp(activity).getStravaApi();
     }
 
-    private void finishAuth(String code) {
+    void finishAuth(String code) {
         stravaApi.authenticate(ApiUtils.getAuthParams(getActivity(), code),
                 new Callback<AuthResponse>() {
 
@@ -96,17 +96,17 @@ public class AuthFragment extends BaseFragment {
                 });
     }
 
-    private void handleAccessDenied() {
+    void handleAccessDenied() {
     }
 
-    private void saveAccessToken(String accessToken) {
+    void saveAccessToken(String accessToken) {
         Activity activity = getActivity();
         if (activity != null) {
             getStravaFlowApp(activity).saveAccessToken(accessToken);
         }
     }
 
-    private void launchActivitiesActivity() {
+    void launchActivitiesActivity() {
         Activity activity = getActivity();
         if (activity != null) {
             Intent intent = new Intent(activity, ActivitiesActivity.class);

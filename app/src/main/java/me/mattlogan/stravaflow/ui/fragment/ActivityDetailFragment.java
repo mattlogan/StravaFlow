@@ -22,7 +22,7 @@ public class ActivityDetailFragment extends BaseFragment {
 
     private static final String STRAVA_ACTIVITY_KEY = "strava_activity";
 
-    private StravaActivity stravaActivity;
+    StravaActivity stravaActivity;
 
     public static ActivityDetailFragment newInstance(StravaActivity stravaActivity) {
         ActivityDetailFragment fragment = new ActivityDetailFragment();
@@ -50,7 +50,7 @@ public class ActivityDetailFragment extends BaseFragment {
         return activityDetailView;
     }
 
-    private void setupViews() {
+    void setupViews() {
         dateText.setText(DateUtils.formatStravaDate(stravaActivity.getStartDate()));
 
         if (stravaActivity.getLocationState() != null && stravaActivity.getLocationCity() != null) {

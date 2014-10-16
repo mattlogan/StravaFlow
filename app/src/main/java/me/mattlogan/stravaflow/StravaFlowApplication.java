@@ -14,10 +14,10 @@ import retrofit.converter.GsonConverter;
 
 public class StravaFlowApplication extends Application {
 
-    private static final String ENDPOINT = "https://www.strava.com";
+    static final String ENDPOINT = "https://www.strava.com";
 
-    private StravaApi stravaApi;
-    private String accessToken;
+    StravaApi stravaApi;
+    String accessToken;
 
     @Override
     public void onCreate() {
