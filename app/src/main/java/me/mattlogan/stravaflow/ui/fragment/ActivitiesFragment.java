@@ -6,16 +6,16 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.squareup.otto.Subscribe;
+import java.util.List;
 
 import me.mattlogan.stravaflow.R;
-import me.mattlogan.stravaflow.api.StravaApiBus;
-import me.mattlogan.stravaflow.api.event.ActivitiesFailedEvent;
-import me.mattlogan.stravaflow.api.event.ActivitiesRequestedEvent;
-import me.mattlogan.stravaflow.api.event.ActivitiesSuccessEvent;
+import me.mattlogan.stravaflow.api.StravaApi;
 import me.mattlogan.stravaflow.api.model.StravaActivity;
 import me.mattlogan.stravaflow.ui.view.ActivitiesAdapter;
 import me.mattlogan.stravaflow.ui.view.ActivitiesView;
+import retrofit.Callback;
+import retrofit.RetrofitError;
+import retrofit.client.Response;
 
 public class ActivitiesFragment extends BaseFragment
         implements ActivitiesAdapter.OnActivitySelectedListener {
@@ -24,10 +24,9 @@ public class ActivitiesFragment extends BaseFragment
         public void onActivitySelected(StravaActivity stravaActivity);
     }
 
-    private StravaApiBus apiBus = StravaApiBus.getInstance();
-
     private ActivitiesView activitiesView;
     private ActivitiesAdapter adapter;
+    private StravaApi stravaApi;
 
     public static ActivitiesFragment newInstance() {
         return new ActivitiesFragment();
@@ -48,27 +47,34 @@ public class ActivitiesFragment extends BaseFragment
         return activitiesView;
     }
 
-    @Override public void onResume() {
-        super.onResume();
-        apiBus.register(this);
-        apiBus.post(new ActivitiesRequestedEvent(System.currentTimeMillis()));
-    }
-
     @Override protected String getTitle() {
         return getString(R.string.app_name);
     }
 
-    @Override public void onPause() {
-        super.onPause();
-        apiBus.unregister(this);
+    @Override public void onAttach(Activity activity) {
+        super.onAttach(activity);
+        stravaApi = getStravaFlowApp(activity).getStravaApi();
     }
 
-    @Subscribe public void onActivitiesSuccess(ActivitiesSuccessEvent event) {
-        adapter.setActivitiesList(event.getStravaActivities());
-        adapter.notifyDataSetChanged();
+    @Override public void onResume() {
+        super.onResume();
+        fetchActivities();
     }
 
-    @Subscribe public void onActivitiesFailed(ActivitiesFailedEvent event) {
+    private void fetchActivities() {
+        stravaApi.getActivities(System.currentTimeMillis(), new Callback<List<StravaActivity>>() {
+            @Override
+            public void success(List<StravaActivity> stravaActivities, Response response) {
+                if (adapter != null) {
+                    adapter.setActivitiesList(stravaActivities);
+                    adapter.notifyDataSetChanged();
+                }
+            }
+
+            @Override
+            public void failure(RetrofitError error) {
+            }
+        });
     }
 
     @Override public void onActivitySelected(StravaActivity stravaActivity) {

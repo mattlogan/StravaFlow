@@ -8,6 +8,7 @@ import android.os.Bundle;
 import android.view.MenuItem;
 
 import me.mattlogan.stravaflow.R;
+import me.mattlogan.stravaflow.StravaFlowApplication;
 
 public abstract class BaseActivity extends Activity
         implements FragmentManager.OnBackStackChangedListener {

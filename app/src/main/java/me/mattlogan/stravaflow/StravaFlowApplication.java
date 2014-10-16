@@ -5,12 +5,8 @@ import android.app.Application;
 import com.google.gson.FieldNamingPolicy;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
-import com.squareup.otto.Subscribe;
 
 import me.mattlogan.stravaflow.api.StravaApi;
-import me.mattlogan.stravaflow.api.StravaApiBus;
-import me.mattlogan.stravaflow.api.StravaApiHandler;
-import me.mattlogan.stravaflow.api.event.AuthenticateSuccessEvent;
 import me.mattlogan.stravaflow.util.PreferencesUtils;
 import retrofit.RequestInterceptor;
 import retrofit.RestAdapter;
@@ -20,14 +16,12 @@ public class StravaFlowApplication extends Application {
 
     private static final String ENDPOINT = "https://www.strava.com";
 
-    private StravaApiHandler stravaApiHandler;
-    private StravaApiBus stravaApiBus = StravaApiBus.getInstance();
+    private StravaApi stravaApi;
     private String accessToken;
 
     @Override public void onCreate() {
         super.onCreate();
-        stravaApiBus.register(this);
-        stravaApiHandler = new StravaApiHandler(this, buildStravaApi(), stravaApiBus);
+        stravaApi = buildStravaApi();
         accessToken = PreferencesUtils.retrieveAccessToken(this);
     }
 
@@ -56,12 +50,16 @@ public class StravaFlowApplication extends Application {
                 .create(StravaApi.class);
     }
 
-    @Subscribe public void onAuthenticateSuccess(AuthenticateSuccessEvent event) {
-        accessToken = event.getAccessToken();
+    public void saveAccessToken(String accessToken) {
+        this.accessToken = accessToken;
         PreferencesUtils.saveAccessToken(this, accessToken);
     }
 
     public boolean hasAccessToken() {
         return accessToken != null;
+    }
+
+    public StravaApi getStravaApi() {
+        return stravaApi;
     }
 }

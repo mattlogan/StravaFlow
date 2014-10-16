@@ -4,6 +4,9 @@ import android.app.ActionBar;
 import android.app.Activity;
 import android.app.Fragment;
 
+import me.mattlogan.stravaflow.StravaFlowApplication;
+import me.mattlogan.stravaflow.api.StravaApi;
+
 public abstract class BaseFragment extends Fragment {
 
     @Override public void onResume() {
@@ -18,4 +21,8 @@ public abstract class BaseFragment extends Fragment {
     }
 
     protected abstract String getTitle();
+
+    protected StravaFlowApplication getStravaFlowApp(Activity activity) {
+        return (StravaFlowApplication) activity.getApplication();
+    }
 }
