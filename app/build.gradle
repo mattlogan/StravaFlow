@@ -32,15 +32,5 @@ dependencies {
     compile 'com.squareup.retrofit:retrofit:1.7.0'
     compile 'com.jakewharton:butterknife:5.1.2'
 
-    androidTestCompile 'org.mockito:mockito-all:1.10.8'
-    androidTestCompile ('com.jakewharton.espresso:espresso:1.1-r3') {
-        exclude group: 'com.squareup.dagger', module: 'dagger'
-        exclude group: 'javax.inject', module: 'javax.inject'
-        exclude group: 'javax.annotation', module: 'javax.annotation-api'
-        exclude group: 'com.google.guava', module: 'guava'
-        exclude group: 'com.google.code.findbugs', module: 'jsr305'
-        exclude group: 'org.hamcrest', module: 'hamcrest-core'
-        exclude group: 'org.hamcrest', module: 'hamcrest-library'
-        exclude group: 'org.hamcrest', module: 'hamcrest-integration'
-    }
+    androidTestCompile 'com.jakewharton.espresso:espresso:1.1-r3'
 }
