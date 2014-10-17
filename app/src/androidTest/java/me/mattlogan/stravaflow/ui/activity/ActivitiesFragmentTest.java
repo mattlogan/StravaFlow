@@ -1,6 +1,7 @@
 package me.mattlogan.stravaflow.ui.activity;
 
 import android.test.ActivityInstrumentationTestCase2;
+import android.test.suitebuilder.annotation.SmallTest;
 
 import me.mattlogan.stravaflow.R;
 import me.mattlogan.stravaflow.ui.fragment.ActivitiesFragment;
@@ -10,16 +11,18 @@ import static com.google.android.apps.common.testing.ui.espresso.assertion.ViewA
 import static com.google.android.apps.common.testing.ui.espresso.matcher.ViewMatchers.isDisplayed;
 import static com.google.android.apps.common.testing.ui.espresso.matcher.ViewMatchers.withId;
 
-public class ActivitiesActivityTest extends ActivityInstrumentationTestCase2<ActivitiesActivity> {
+@SmallTest
+public class ActivitiesFragmentTest extends ActivityInstrumentationTestCase2<FragmentTestActivity> {
 
-    public ActivitiesActivityTest() {
-        super(ActivitiesActivity.class);
+    public ActivitiesFragmentTest() {
+        super(FragmentTestActivity.class);
     }
 
     @Override
     protected void setUp() throws Exception {
         super.setUp();
-        getActivity();
+        FragmentTestActivity activity = getActivity();
+        activity.addFragment(ActivitiesFragment.newInstance());
     }
 
     public void testHasActivitiesFragment() {
@@ -28,10 +31,6 @@ public class ActivitiesActivityTest extends ActivityInstrumentationTestCase2<Act
 
     public void testListShowing() {
         onView(withId(R.id.activities_list)).check(matches(isDisplayed()));
-    }
-
-    public void testListIsEmpty() {
-        // todo: check child count == 0
     }
 
     ActivitiesFragment getActivitiesFragment() {

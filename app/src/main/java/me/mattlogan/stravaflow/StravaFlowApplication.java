@@ -34,12 +34,6 @@ public class StravaFlowApplication extends Application {
         return new RestAdapter.Builder()
                 .setEndpoint(ENDPOINT)
                 .setConverter(new GsonConverter(gson))
-//                .setLogLevel(RestAdapter.LogLevel.FULL)
-//                .setLog(new RestAdapter.Log() {
-//                    @Override public void log(String message) {
-//                        Log.d("testing", message);
-//                    }
-//                })
                 .setRequestInterceptor(new RequestInterceptor() {
                     @Override
                     public void intercept(RequestFacade request) {

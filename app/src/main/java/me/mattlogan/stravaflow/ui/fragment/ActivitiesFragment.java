@@ -14,6 +14,7 @@ import butterknife.InjectView;
 import me.mattlogan.stravaflow.R;
 import me.mattlogan.stravaflow.api.StravaApi;
 import me.mattlogan.stravaflow.api.model.StravaActivity;
+import me.mattlogan.stravaflow.ui.activity.StravaApiInjector;
 import me.mattlogan.stravaflow.ui.view.ActivitiesAdapter;
 import retrofit.Callback;
 import retrofit.RetrofitError;
@@ -29,6 +30,7 @@ public class ActivitiesFragment extends BaseFragment
     }
 
     ActivitiesAdapter adapter;
+    StravaApi stravaApi;
 
     public static ActivitiesFragment newInstance() {
         return new ActivitiesFragment();
@@ -37,7 +39,13 @@ public class ActivitiesFragment extends BaseFragment
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        Activity activity = getActivity();
         adapter = new ActivitiesAdapter(getActivity(), this);
+        if (activity instanceof StravaApiInjector) {
+            stravaApi = ((StravaApiInjector) activity).getStravaApi();
+        } else {
+            throw new IllegalStateException("Activity must implement StravaApiInjector");
+        }
     }
 
     @Override
@@ -62,10 +70,10 @@ public class ActivitiesFragment extends BaseFragment
     @Override
     public void onResume() {
         super.onResume();
-        fetchActivities(getStravaFlowApp(getActivity()).getStravaApi());
+        fetchActivities();
     }
 
-    void fetchActivities(StravaApi stravaApi) {
+    void fetchActivities() {
         stravaApi.getActivities(System.currentTimeMillis(), new Callback<List<StravaActivity>>() {
             @Override
             public void success(List<StravaActivity> stravaActivities, Response response) {

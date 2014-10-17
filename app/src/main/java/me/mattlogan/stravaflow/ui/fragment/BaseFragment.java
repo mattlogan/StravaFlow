@@ -22,7 +22,7 @@ public abstract class BaseFragment extends Fragment {
 
     protected abstract String getTitle();
 
-    protected StravaFlowApplication getStravaFlowApp(Activity activity) {
-        return (StravaFlowApplication) activity.getApplication();
+    protected StravaFlowApplication getStravaFlowApp() {
+        return (StravaFlowApplication) getActivity().getApplication();
     }
 }

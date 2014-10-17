@@ -9,9 +9,10 @@ import android.view.MenuItem;
 
 import me.mattlogan.stravaflow.R;
 import me.mattlogan.stravaflow.StravaFlowApplication;
+import me.mattlogan.stravaflow.api.StravaApi;
 
 public abstract class BaseActivity extends Activity
-        implements FragmentManager.OnBackStackChangedListener {
+        implements FragmentManager.OnBackStackChangedListener, StravaApiInjector {
 
     FragmentManager fragmentManager;
 
@@ -54,5 +55,10 @@ public abstract class BaseActivity extends Activity
         if (actionBar != null) {
             actionBar.setDisplayHomeAsUpEnabled(fragmentManager.getBackStackEntryCount() > 0);
         }
+    }
+
+    @Override
+    public StravaApi getStravaApi() {
+        return ((StravaFlowApplication) getApplication()).getStravaApi();
     }
 }

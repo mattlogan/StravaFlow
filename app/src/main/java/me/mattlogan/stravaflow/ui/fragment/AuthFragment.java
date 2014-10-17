@@ -17,6 +17,7 @@ import me.mattlogan.stravaflow.api.StravaApi;
 import me.mattlogan.stravaflow.api.model.AuthResponse;
 import me.mattlogan.stravaflow.api.util.ApiUtils;
 import me.mattlogan.stravaflow.ui.activity.ActivitiesActivity;
+import me.mattlogan.stravaflow.ui.activity.StravaApiInjector;
 import retrofit.Callback;
 import retrofit.RetrofitError;
 import retrofit.client.Response;
@@ -29,6 +30,17 @@ public class AuthFragment extends BaseFragment {
 
     public static AuthFragment newInstance() {
         return new AuthFragment();
+    }
+
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        Activity activity = getActivity();
+        if (activity instanceof StravaApiInjector) {
+            stravaApi = ((StravaApiInjector) activity).getStravaApi();
+        } else {
+            throw new IllegalStateException("Activity must implement StravaApiInjector");
+        }
     }
 
     @Override
@@ -76,7 +88,7 @@ public class AuthFragment extends BaseFragment {
     @Override
     public void onAttach(Activity activity) {
         super.onAttach(activity);
-        stravaApi = getStravaFlowApp(activity).getStravaApi();
+        stravaApi = getStravaFlowApp().getStravaApi();
     }
 
     void finishAuth(String code) {
@@ -102,7 +114,7 @@ public class AuthFragment extends BaseFragment {
     void saveAccessToken(String accessToken) {
         Activity activity = getActivity();
         if (activity != null) {
-            getStravaFlowApp(activity).saveAccessToken(accessToken);
+            getStravaFlowApp().saveAccessToken(accessToken);
         }
     }
 
