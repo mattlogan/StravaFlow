@@ -29,7 +29,6 @@ public class ActivitiesFragment extends BaseFragment
     }
 
     ActivitiesAdapter adapter;
-    StravaApi stravaApi;
 
     public static ActivitiesFragment newInstance() {
         return new ActivitiesFragment();
@@ -61,24 +60,17 @@ public class ActivitiesFragment extends BaseFragment
     }
 
     @Override
-    public void onAttach(Activity activity) {
-        super.onAttach(activity);
-        stravaApi = getStravaFlowApp(activity).getStravaApi();
-    }
-
-    @Override
     public void onResume() {
         super.onResume();
-        fetchActivities();
+        fetchActivities(getStravaFlowApp(getActivity()).getStravaApi());
     }
 
-    void fetchActivities() {
+    void fetchActivities(StravaApi stravaApi) {
         stravaApi.getActivities(System.currentTimeMillis(), new Callback<List<StravaActivity>>() {
             @Override
             public void success(List<StravaActivity> stravaActivities, Response response) {
                 if (isAdded()) {
-                    adapter.setActivitiesList(stravaActivities);
-                    adapter.notifyDataSetChanged();
+                   populateList(stravaActivities);
                 }
             }
 
@@ -86,6 +78,11 @@ public class ActivitiesFragment extends BaseFragment
             public void failure(RetrofitError error) {
             }
         });
+    }
+
+    void populateList(List<StravaActivity> stravaActivities) {
+        adapter.setActivitiesList(stravaActivities);
+        adapter.notifyDataSetChanged();
     }
 
     @Override

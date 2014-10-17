@@ -17,7 +17,8 @@ public class ActivitiesActivity extends BaseActivity implements ActivitiesFragme
     @Override
     public void onActivitySelected(StravaActivity stravaActivity) {
         getFragmentManager().beginTransaction()
-                .replace(R.id.container, ActivityDetailFragment.newInstance(stravaActivity))
+                .replace(R.id.container, ActivityDetailFragment.newInstance(stravaActivity),
+                        ActivityDetailFragment.class.getSimpleName())
                 .addToBackStack(null)
                 .commit();
     }

@@ -22,8 +22,10 @@ public abstract class BaseActivity extends Activity
         fragmentManager = getFragmentManager();
         fragmentManager.addOnBackStackChangedListener(this);
         if (savedInstanceState == null) {
+            Fragment initialFragment = getInitialFragment();
             fragmentManager.beginTransaction()
-                    .add(R.id.container, getInitialFragment())
+                    .add(R.id.container, initialFragment,
+                            initialFragment.getClass().getSimpleName())
                     .commit();
         } else {
             configureUpButton();

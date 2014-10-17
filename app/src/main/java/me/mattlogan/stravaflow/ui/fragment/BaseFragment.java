@@ -5,7 +5,6 @@ import android.app.Activity;
 import android.app.Fragment;
 
 import me.mattlogan.stravaflow.StravaFlowApplication;
-import me.mattlogan.stravaflow.api.StravaApi;
 
 public abstract class BaseFragment extends Fragment {
 
