@@ -29,7 +29,7 @@
             android:noHistory="true"
             android:theme="@android:style/Theme.NoTitleBar"/>
 
-        <activity android:name=".ui.activity.FragmentTestActivity" />
+        <activity android:name="util.FragmentTestActivity" />
 
     </application>
 

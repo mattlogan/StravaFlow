@@ -1,11 +1,13 @@
-package me.mattlogan.stravaflow.ui.activity;
+package util;
 
 import android.app.Activity;
 import android.app.Fragment;
 import android.os.Bundle;
 
 import me.mattlogan.stravaflow.R;
+import me.mattlogan.stravaflow.StravaFlowApplication;
 import me.mattlogan.stravaflow.api.StravaApi;
+import me.mattlogan.stravaflow.ui.activity.StravaApiInjector;
 
 public class FragmentTestActivity extends Activity implements StravaApiInjector {
 
@@ -17,8 +19,7 @@ public class FragmentTestActivity extends Activity implements StravaApiInjector 
 
     @Override
     public StravaApi getStravaApi() {
-        // todo: return mock retrofit api
-        return null;
+        return ((StravaFlowApplication) getApplication()).getStravaApi();
     }
 
     public void addFragment(Fragment fragment) {
